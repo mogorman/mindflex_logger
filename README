@@ -1,0 +1,2 @@
+This code is used for taking a mindflex eeg toy connected via bluetooth and bringing in its data as bt serial device and then converting it to something useable.
+included is a sample rfcomm config file for configuring your device as well as an init script for running logging in the background.

@@ -1,0 +1,6 @@
+How to Install
+-------------------------------------------------------------------------------
+make
+make install
+-------------------------------------------------------------------------------
+this pusts file mindflex_logger and mindflex_loop.sh and mindflex.init in place

@@ -1,0 +1,57 @@
+#!/bin/sh
+#starts mindflex logger loop
+
+DAEMON=/usr/local/bin/mindflex_loop.sh
+CMD=/usr/local/bin/mindflex_logger
+USER=root
+LOG=/var/log/mindflex_log
+NAME="mindflex_logger"
+DESC="I am reading your mind"
+PID=/var/run/mindflex_logger.pid
+
+test -x $DAEMON || exit 0
+
+. /lib/lsb/init-functions
+
+
+start()
+{
+	start-stop-daemon -m --start --quiet --pidfile $PID \
+		--background --user $USER --exec $DAEMON -- $CMD $LOG
+}
+
+
+stop()
+{
+	start-stop-daemon --stop -s KILL --retry 5  --pidfile $PID 
+}
+
+case "$1" in
+    start)
+        echo -n "Starting $DESC: "
+        start
+        echo "$NAME."
+    ;;
+    stop)
+        echo -n "Stopping $DESC: "
+        stop
+        echo "$NAME."
+    ;;
+    status)
+        status_of_proc -p $PID "$DAEMON" 
+    ;;
+    restart)
+        echo -n "Restarting $DESC: "
+        stop
+        start
+        echo "$NAME."
+    ;;
+    *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|status|restart|reload|force-reload}" >&2
+        exit 1
+    ;;
+esac
+
+exit 0
+
