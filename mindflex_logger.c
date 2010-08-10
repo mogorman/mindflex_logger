@@ -5,6 +5,8 @@
  */
 
 #include <stdio.h>
+#include <time.h>
+
 #define MINDSET_SYNC 170
 #define MINDSET_PACKET_LENGTH 32
 #define MINDSET_POWER_BANDS 8
@@ -14,6 +16,9 @@ void parse_packet(unsigned char *packet)
         int i = 0, j = 0;
         int signal = 0, attention = 0, meditation = 0, eeg_length = 0;
         unsigned long eeg_power[MINDSET_POWER_BANDS];
+        time_t tv;
+        tv = time(NULL);
+
         for(i = 0; i < MINDSET_PACKET_LENGTH; i++) {
 		switch (packet[i]) {
                 case 2:
@@ -36,8 +41,8 @@ void parse_packet(unsigned char *packet)
                         return;
                 }
         }
-        printf("%d,%d,%d,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu\n",
-               signal, attention, meditation,
+        printf("%ld,%d,%d,%d,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu\n",
+               tv,signal, attention, meditation,
                eeg_power[0],
                eeg_power[1],
                eeg_power[2],
